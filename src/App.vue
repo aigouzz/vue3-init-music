@@ -1,26 +1,33 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <RouterView v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component"></component>
+      </keep-alive>
+    </RouterView>
+    <Player v-show="showBar"></Player>
+  </div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  import Player from './components/playerBar/playerBar.vue'
+  import { mapState } from 'vuex'
+  import { RouterView } from 'vue-router'
+  export default {
+    data () {
+      return {}
+    },
+    components: {
+      Player,
+      RouterView
+    },
+    created () {
+      this.$store.dispatch('getSong', 386538)  // 知足 - 五月天
+    },
+    computed: {
+      ...mapState([
+        'showBar',
+        'audio'
+      ])
+    }
   }
-}
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
