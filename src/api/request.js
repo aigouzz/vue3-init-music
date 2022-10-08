@@ -2,7 +2,7 @@ import Axios from 'axios'
 import {Toast} from 'vant'
 
 const port = process.env.PORT || 4040
-const _baseUrl = `http://127.0.0.1:${port}`
+const _baseUrl = `http://192.168.199.186:${port}`
 // 'https://netease-n3ts0l304-aigouzz.vercel.app'
 let axios = Axios.create({
   timeout: 8000,
