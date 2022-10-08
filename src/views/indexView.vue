@@ -1,29 +1,29 @@
 <template>
     <div>
       <div class="fixed-bar">
-      <van-nav-bar>
-        <template #left>
-          <RouterLink class="banner-logo" to="/index/home"></RouterLink>
-        </template>
-        <template #right>
-          <RouterLink class="banner-search" to="/search">
-            <van-icon name="search"></van-icon>
-          </RouterLink>
-        </template>
-      </van-nav-bar>
-      <van-tabs :value="activeTab" @change="handleTabChange" class="view-tabs">
-        <van-tab name="homeView" title="时下流行"/>
-        <van-tab name="songList" title="歌单"/>
-        <van-tab name="leaderBoard" title="排行榜"/>
-        <van-tab name="hotSinger" title="热门歌手"/>
-      </van-tabs>
+        <van-nav-bar>
+          <template #left>
+            <RouterLink class="banner-logo" to="/index/home"></RouterLink>
+          </template>
+          <template #right>
+            <RouterLink class="banner-search" to="/search">
+              <van-icon name="search" size=".6rem"></van-icon>
+            </RouterLink>
+          </template>
+        </van-nav-bar>
+        <van-tabs v-model:active="activeTab" @change="handleTabChange" class="view-tabs">
+          <van-tab name="homeView" title="时下流行"/>
+          <van-tab name="songList" title="歌单"/>
+          <van-tab name="leaderBoard" title="排行榜"/>
+          <van-tab name="hotSinger" title="热门歌手"/>
+        </van-tabs>
       </div>
-      <div class="default-view" :class="{view: songList.length > 0}">
-        <RouterView v-slot="{ Component }">
+      <div class="default-view" :class="{'view': songList.length > 0}">
+        <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component"></component>
           </keep-alive>
-        </RouterView>
+        </router-view>
       </div>
     </div>
 </template>
@@ -53,7 +53,7 @@
         const path = to.path
         var tmpArr = path.split('/')
         if (tmpArr[1] === 'index') {
-          this.handleTabChange(tmpArr[2])
+          this.activeTab = tmpArr[2]
         }
       }
     },
@@ -85,6 +85,11 @@
     float: right;
     height: 100%;
     color: white;
+    line-height: 1.2rem;
+    i{
+      display: inline-block;
+      width: 100%;
+    }
   }
   .view-tabs {
     background-color: #fff;

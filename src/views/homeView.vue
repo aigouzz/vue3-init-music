@@ -3,48 +3,47 @@
       <Loading :isloading="isloading"></Loading>
       <div class="container" v-show="!isloading">
       <div id="slider">
-        <Swiper :options="swiperOption">
+        <Swiper :pagination="{clickable: true}" :modules="modules">
           <Swiper-slide v-for="item in bannerList" :key="item.imageUrl"><img :src="item.imageUrl" class="banner-item"  alt=""></Swiper-slide>
           <div class="swiper-pagination"></div>
         </Swiper>
       </div>
       <div class="wrapper">
       <div class="g-title song-list">推荐歌单 <router-link :to="{path: '/index/songList'}">更多></router-link></div>
-      <mu-flexbox wrap="wrap" justify="space-around" class="box" :gutter="0">
-        <mu-flexbox-item basis="28%" class="item" :key="item.id" v-for="item in playList">
+      <van-list class="box">
+        <van-cell class="item" :key="item.id" v-for="item in playList">
           <router-link :to="{name: 'playListDetail',params: { id: item.id, name: item.name, coverImg: item.picUrl, creator: item.copywriter, count: item.playCount, desc: item.description }}">
             <div class="bar">{{formatCount(item.playCount)}}</div>
             <img class="item-img img-response" :src="item.picUrl" lazy="loading">
-            <div class="item-name">{{item.name}}</div>
+            <span class="item-name">{{item.name}}</span>
           </router-link>
-        </mu-flexbox-item>
-      </mu-flexbox>
-        <div class="g-title mv">推荐MV <router-link :to="{}">更多></router-link></div>
-        <mu-flexbox wrap="wrap" justify="space-between" class="box" :gutter="0">
-          <mu-flexbox-item basis="48%" class="mv-item" v-for="item in mvList" :key="item.artistId">
-            <div class="mv-img">
-              <img class="img-response" :src="item.picUrl" />
-            </div>
-            <div class="mv-name">{{item.name}}</div>
-            <div class="mv-author">{{item.artistName}}</div>
-          </mu-flexbox-item>
-        </mu-flexbox>
-      </div>
-      </div>
+        </van-cell>
+      </van-list>
+      <div class="g-title mv">推荐MV <router-link :to="{}">更多></router-link></div>
+      <van-list wrap="wrap" justify="space-between" class="box" :gutter="0">
+        <van-cell basis="48%" class="mv-item" v-for="item in mvList" :key="item.artistId">
+          <div class="mv-img">
+            <img class="img-response" :src="item.picUrl" />
+          </div>
+          <div class="mv-name">{{item.name}}</div>
+          <div class="mv-author">{{item.artistName}}</div>
+        </van-cell>
+      </van-list>
     </div>
+  </div>
+</div>
 </template>
 <script>
 import 'swiper/css'
+import 'swiper/css/pagination'
+import { Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import api from '../api'
 import Loading from '../components/common/commonLoading.vue'
 export default {
   data () {
     return {
-      swiperOption: {
-        pagination: '.swiper-pagination',
-        paginationClickable: true
-      },
+      modules: [Pagination],
       isloading: true,
       bannerList: [],
       playList: [],
@@ -114,7 +113,7 @@ export default {
   // banner样式
   .banner-item {
     width: 100%;
-    height: 7.4rem;
+    height: 4.8rem;
     background: url('../static/banner-item-load.png') no-repeat;
     background-size: cover;
   }
@@ -126,15 +125,18 @@ export default {
   }
   .item {
     position: relative;
-    margin: 0 5px 5px 10px;
-    height: 100%;
+    margin: 0 5px 5px;
+    padding: 0;
+    width: 4.6rem;
+    display: inline-block;
     a {
       color: rgba(0, 0, 0, 0.87);
+      display: inline-block;
     }
     .bar {
       position: absolute;
       top: 0;
-      left: 0;
+      right: 0;
       color: #fff;
       width: 100%;
       text-align: right;
@@ -143,8 +145,9 @@ export default {
     }
 
     &-img {
-      min-width:5rem;
-      min-height: 5rem;
+      min-width: 3.1rem;
+      min-height: 3.1rem;
+      display: inline-block;
     }
 
     &-img[lazy=loading] {
@@ -153,9 +156,11 @@ export default {
     }
 
     &-name {
+      display: inline-block;
       overflow : hidden;
       font-size: 12px;
-      height: 1.7rem;
+      height: 1.1rem;
+      line-height: 0.55rem;
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -174,7 +179,10 @@ export default {
     }
     &-item {
       position: relative;
-      margin: 0 5px 5px 10px;
+      width: 4.6rem;
+      display: inline-block;
+      margin: 0 5px 5px;
+      padding: 0;
     }
     &-author {
       font-size: 12px;
@@ -183,7 +191,7 @@ export default {
   }
   .mv-img{
     width: 100%;
-    height: 4.48rem;
+    height: 2.9rem;
     overflow: hidden;
     img{
       width: 100%;
@@ -204,5 +212,8 @@ export default {
       100%{
         transform: rotate(360deg);
       }
+  }
+  .van-cell::after{
+    border: none;
   }
 </style>

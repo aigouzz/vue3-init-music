@@ -2,17 +2,23 @@
     <div class="content">
       <div class="player-wrapper">
         <div class="player-inner">
-          <mu-appbar>
-            <mu-icon-button icon='arrow_back' @click="back"/>
-            <div class="play-title">
-              <div class="play-name"><span>{{audio.name}}</span></div>
-              <div class="play-singer"> {{audio.singer}} </div>
-            </div>
-            <mu-icon-button icon='share'/>
-          </mu-appbar>
+          <van-nav-bar>
+            <template #left>
+              <van-icon name='arrow-left' @click="back"/>
+            </template>
+            <template #title>
+              <div class="play-title">
+                <div class="play-name"><span>{{audio.name}}</span></div>
+                <div class="play-singer"> {{audio.singer}} </div>
+              </div>
+            </template>
+            <template #right>
+              <van-icon name='share' @click="share"/>
+            </template>
+          </van-nav-bar>
           <div class="bar-line"></div>
-          <mu-flexbox orient="vertical" class="main">
-            <mu-flexbox-item order="0">
+          <van-space direction="vertical" fill class="main">
+            <div order="0">
               <div class="cd-holder" :class="{'cd-play': playing}">
                 <div class="stick"></div>
                 <div class="cd-wrapper" :class="{'cd-rotate': playing}">
@@ -21,8 +27,8 @@
                   <img class="cd-img" :src="audio.albumPic + '?param=500y500'"/>
                 </div>
               </div>
-            </mu-flexbox-item>
-            <mu-flexbox-item order="2" class="bottom-wrapper">
+            </div>
+            <div order="2" class="bottom-wrapper">
               <div class="lyric-holder">
                 <div class="lrc-inner" style="transition: -webkit-transform 0.3s ease-out; transform-origin: 0px 0px 0px;" :style="{'transform':' translate3d(0px,'+ lrcOffset +'px, 0px)'}">
                   <p v-for="(item, index) in afterLrc" :id="'line-'+index" :key="index">{{item.txt}}</p>
@@ -40,14 +46,14 @@
               </div>
               </div>
               <div class="control-bar ">
-                <mu-icon-button class="btn d-mode"/>
-                <mu-icon-button class="btn d-prev" @click="playPrev"/>
-                <mu-icon-button class="btn d-play btn-big" @click="togglePlay" :class="{'d-pause': playing}"/>
-                <mu-icon-button class="btn d-next" @click="playNext"/>
-                <mu-icon-button class="btn d-list" @click="showList"/>
+                <van-button class="btn d-mode"/>
+                <van-button class="btn d-prev" @click="playPrev"/>
+                <van-button class="btn d-play btn-big" @click="togglePlay" :class="{'d-pause': playing}"/>
+                <van-button class="btn d-next" @click="playNext"/>
+                <van-button class="btn d-list" @click="showList"/>
               </div>
-            </mu-flexbox-item>
-          </mu-flexbox>
+            </div>
+          </van-space>
         </div>
         </div>
       <div class="mask">
@@ -59,7 +65,7 @@
 </template>
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import BottomSheet from '../components/playerBar/songList'
+import BottomSheet from '../components/playerBar/songLists.vue'
 import api from '../api'
 export default {
   data () {

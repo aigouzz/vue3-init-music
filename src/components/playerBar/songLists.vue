@@ -11,7 +11,7 @@
             <span class="list-name">{{item.name}}</span> <span class="list-singer">&nbsp;-{{item.singer}}&nbsp;</span>
           </div>
           <span class="list-btn" @click="remove(index)">x</span>
-          <hr class="mu-divider" v-if="index !== 0">
+          <hr class="mu-divider">
         </div>
       </div>
     </van-popup>
@@ -20,7 +20,7 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  name: 'songList',
+  name: 'songLists',
   data () {
     return {
       bottomSheet: false
@@ -57,15 +57,14 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../../assets/theme.less";
-html,body { height:100%; overflow:hidden }
 .title-wrapper {
   font-size: 16px;
-  height: 2rem;
-  line-height: 2rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
   color: rgba(0,0,0,.87);
   text-align: center;
   .right-btn {
-    line-height: 2.1rem;
+    line-height: 1.28rem;
     font-size: 12px;
     color: #828080;
     float: right;
@@ -73,26 +72,25 @@ html,body { height:100%; overflow:hidden }
   }
 }
 .list-wrapper {
-  height: 10rem;
-  width: 100%;
-  padding: 0 10px;
+  height: 6.5rem;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
 .list-item {
-  height: 2rem;
-  line-height: 2rem;
+  padding: 0 10px;
+  height: 1.25rem;
+  line-height: 1.25rem;
   .left {
     max-width: 92%;
     float: left;
-    height: 2rem;
+    height: 1.25rem;
     overflow: hidden;
   }
 }
 .list-name {
   float: left;
   max-width: 72%;
-  height: 2rem;
+  height: 1.25rem;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -112,6 +110,12 @@ html,body { height:100%; overflow:hidden }
   .list-singer {
     color: @primaryColor;
   }
+}
+.mu-divider{
+  display: block;
+  height: 0;
+  width: 100%;
+  border-top: .5px solid #eee;
 }
 
 </style>

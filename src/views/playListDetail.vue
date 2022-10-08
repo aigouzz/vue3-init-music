@@ -1,12 +1,16 @@
 <template>
     <div class="playList" :class="{view: songList.length > 0}">
         <div class="fixed-title" :style="{'background': 'rgba(206, 61, 62, '+ opacity +')'}" style="transition: opacity .1s;">
-            <mu-appbar>
-            <mu-icon-button icon='arrow_back' @click="back"/>
-            <div class="play-title">
-              <div class="play-name"><span>{{fname}}</span></div>
-            </div>
-          </mu-appbar>
+            <van-nav-bar>
+            <template #left>
+              <van-icon name='arrow-left' size=".6rem" @click="back"/>
+            </template>
+            <template #title>
+              <div class="play-title">
+                <div class="play-name"><span>{{fname}}</span></div>
+              </div>
+            </template>
+          </van-nav-bar>
         </div>
         <div class="playlist-info">
             <div class="info-wrapper">
@@ -17,8 +21,8 @@
                 <div class="info-title">
                     <p class="titile">{{name}}</p>
                     <p class="author" v-if="creator.avatarUrl">
-                        <mu-avatar :src="creator.avatarUrl + '?param=50y50'" :size="30" :iconSize="20"/>
-                        <span>{{creator.nickname}}</span>
+                      <van-image :src="creator.avatarUrl + '?param=50y50'" />
+                      <span>{{creator.nickname}}</span>
                     </p>
                 </div>
             </div>
@@ -26,22 +30,20 @@
             <div class="bg-player" id="backImg" :style="{'background-image':'url(' + coverImgUrl + '?param=300y300)'}" ></div>
         </div>
         <div class="playlist-holder">
-            <div class="add-all">
-                <mu-flat-button label="播放全部" class="demo-flat-button" icon="add_circle_outline" @click="playAll"/>
-                <mu-divider/>
+          <div class="add-all">
+            <van-icon name="add-o" size=".5rem"></van-icon>
+            <van-button class="demo-flat-button" icon="add_circle_outline" @click="playAll">播放全部</van-button>
+          </div>
+          <div>
+          <van-list loading="" @load="change">
+            <div v-for="(item, index) in list" :key="item.id" @click="playAudio(item)">
+                <van-cell :title="item.name" :value="item.id" :describeText="item.ar[0].name">
+                    <span class="indexStyle">{{index + 1}}</span>
+                </van-cell>
             </div>
-            <div>
-              <mu-circular-progress :size="40" class="center" v-if="isloading"/>
-                <mu-list :value="value" v-show="!isloading" @change="change">
-                  <div v-for="(item, index) in list" :key="item.id" @click="playAudio(item)">
-                      <mu-list-item  :disableRipple="true" :title="item.name" :value="item.id" :describeText="item.ar[0].name">
-                          <span class="indexStyle">{{index + 1}}</span>
-                      </mu-list-item>
-                      <mu-divider inset></mu-divider>
-                  </div>
-                </mu-list>
-            </div>
+          </van-list>
         </div>
+      </div>
     </div>
 </template>
 <script>
@@ -158,6 +160,9 @@ export default {
         left: 0;
         z-index: 15;
     }
+    .play-name{
+      color: #fff;
+    }
 
      // 修改默认的bar样式
     .mu-appbar {
@@ -183,7 +188,7 @@ export default {
     .playlist-info {
         position: relative;
         padding: 60px .5rem 0 ;
-        height: 10rem;
+        height: 6rem;
     }
 
     .info-wrapper {
@@ -193,7 +198,7 @@ export default {
         .info-gallery {
             position: relative;
             float: left;
-            width: 6rem;
+            width: 4rem;
             overflow: hidden;
             span {
                 position: absolute;
@@ -215,8 +220,8 @@ export default {
 
         .info-title {
             float: left;
-            width: 7.5rem;
-            margin-left: 1rem;
+            width: 5rem;
+            margin-left: .625rem;
             .title {
                 font-size: 16px;
                 word-wrap: wrapper;
@@ -227,7 +232,7 @@ export default {
                     display: inline-block;
                     height: 30px;
                     text-overflow: ellipsis;
-                    width: 5.4rem;
+                    width: 3.4rem;
                     white-space: nowrap;
                     font-size: 14px;
                     vertical-align: top;
@@ -238,26 +243,32 @@ export default {
     }
 
     .playlist-holder {
-        position: relative;
-        background: #fff;
-        z-index: 3;
-
-        .add-all {
-            padding-left: .4rem;
-        }
+      position: relative;
+      background: #fff;
+      z-index: 3;
+      .add-all {
+          padding-left: .4rem;
+          width: 3rem;
+          i{
+            vertical-align: middle;
+          }
+          button{
+            padding-left: 0;
+          }
+      }
     }
 
     // 列表样式
     .indexStyle {
-    padding-left: 10px;
-    font-size: 18px;
-    font-weight: bolder;
+      padding-left: 10px;
+      font-size: 18px;
+      font-weight: bolder;
     }
     .mu-item-title {
-        white-space:nowrap;
-        height: 1.7rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      white-space:nowrap;
+      height: 1.7rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .bg-player {
         position: absolute;
@@ -283,7 +294,7 @@ export default {
         z-index: 2;
     }
     .center {
-      display: block!important;
+      display: block !important;
       margin: 10% auto 0;
     }
     .view {
@@ -295,5 +306,11 @@ export default {
       text-overflow: ellipsis;
       overflow: hidden;
       line-height: 1.5;
+    }
+    .demo-flat-button{
+      border: none;
+      &::before{
+        border: none;
+      }
     }
 </style>

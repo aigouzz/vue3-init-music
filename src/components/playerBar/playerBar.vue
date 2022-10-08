@@ -27,7 +27,7 @@
 </template>
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex'
-import BottomSheet from './songList'
+import BottomSheet from './songLists.vue'
 export default {
   data () {
     return {
@@ -131,18 +131,18 @@ export default {
   }
   .player-mini {
     width: 100%;
-    height: 2.3rem;
+    height: 1.5rem;
     position: relative;
     background-color: rgba(255,255,255,.9);
     color: #333333;
   }
   .player-mini .mini-content .cover {
-    width: 2rem;
-    height: 2rem;
+    width: 1.25rem;
+    height: 1.25rem;
     overflow: hidden;
     float: left;
-    padding-left: 0.2rem;
-    padding-top: 0.2rem;
+    padding-left: 0.125rem;
+    padding-top: 0.125rem;
     background: ur('../../static/player-bar.png') no-repeat;
     background-size: cover;
   }
@@ -153,14 +153,14 @@ export default {
   .player-mini .mini-content .info {
     overflow: hidden;
     position: relative;
-    width: 7rem;
+    width: 4rem;
     float: left;
-    padding-top: 0.2rem;
-    padding-left: .3rem;
+    padding-top: 0.125rem;
+    padding-left: .19rem;
   }
   .player-mini .mini-content .info .name {
-    font-size: .7rem;
-    line-height: 1rem;
+    font-size: .45rem;
+    line-height: .65rem;
   }
   .player-mini .mini-content .info .name, .player-mini .mini-content .info .artist {
     overflow: hidden;
@@ -170,7 +170,7 @@ export default {
   }
   .player-mini .mini-content .info .artist {
     color: #8a8a8a;
-    font-size: .6rem;
+    font-size: .4rem;
   }
   .player-mini .mini-content .info .name, .player-mini .mini-content .info .artist {
     overflow: hidden;
@@ -183,40 +183,44 @@ export default {
     float: right;
   }
   .control .mini-btn {
-    width: 2rem;
-    height: 2rem;
+    width: 1.25rem;
+    height: 1.25rem;
   }
   .player-mini .mini-content .info .control {
     position: absolute;
     height: 100%;
     top: 50%;
-    margin-top: -1rem;
+    margin-top: -.65rem;
     right: 0;
   }
 
   /*列表按钮*/
-  .player-list {
-    background: url("../../static/playbar_btn_playlist.png") no-repeat!important;
-    background-size: cover!important;
+  .control .player-list {
+    background: url("../../static/playbar_btn_playlist.png") no-repeat !important;
+    background-size: cover !important;
+    border: none;
   }
-  .player {
-    background: url("../../static/playbar_btn_play.png") no-repeat!important;
-    background-size: cover!important;
+  .control .player {
+    background: url("../../static/playbar_btn_play.png") no-repeat !important;
+    background-size: cover !important;
+    border: none;
   }
-  .pause {
-    background: url("../../static/playbar_btn_pause.png") no-repeat!important;
-    background-size: cover!important;
+  .control .pause {
+    background: url("../../static/playbar_btn_pause.png") no-repeat !important;
+    background-size: cover !important;
+    border: none;
   }
-  .next {
-    background: url("../../static/playbar_btn_next.png") no-repeat!important;
-    background-size: cover!important;
+  .control .next {
+    background: url("../../static/playbar_btn_next.png") no-repeat !important;
+    background-size: cover !important;
+    border: none;
   }
 
 
   /*进度条*/
   .player-mini .mini-content .pro {
     width: 100%;
-    height: .1rem;
+    height: .065rem;
     position: absolute;
     left: 0;
     bottom: 0;
@@ -224,7 +228,7 @@ export default {
   }
   .player-mini .mini-content .pro-load, .player-mini .mini-content .pro-play {
     width: 100%;
-    height: .1rem;
+    height: .065rem;
     position: absolute;
     left: -100%;
   }

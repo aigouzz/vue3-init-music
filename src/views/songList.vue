@@ -3,17 +3,17 @@
       <Loading :isloading="loading"></Loading>
       <div class="content" v-if="!loading">
         <div class="title">全部歌单 </div>
-            <mu-flexbox wrap="wrap" justify="space-around" class="box" :gutter="0">
-              <mu-flexbox-item basis="40%" class="list-item" :key="item.id" v-for="item in playList">
-                <router-link :to="{name: 'playListDetail',params: { id: item.id, name: item.name, coverImg: item.coverImgUrl, creator: item.creator, count: item.playCount, desc: item.description }}">
-                <div class="list-bar">{{formatCount(item.playCount)}}</div>
-                <img class="list-img img-response" :src="item.coverImgUrl + '?param=300y300'" lazy="loading">
-                <div class="list-name">{{item.name}}</div>
-                </router-link>
-              </mu-flexbox-item>
-            </mu-flexbox>
-            <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMore"/>
-        </div>
+        <van-list v-model:loading="listLoading" :finished="finished" finished-text="没有更多了" class="box">
+          <van-cell class="list-item" :key="item.id" v-for="item in playList">
+            <router-link :to="{name: 'playListDetail',params: { id: item.id, name: item.name, coverImg: item.coverImgUrl, creator: item.creator, count: item.playCount, desc: item.description }}">
+            <div class="list-bar">{{formatCount(item.playCount)}}</div>
+            <img class="list-img img-response" :src="item.coverImgUrl + '?param=300y300'" lazy="loading">
+            <div class="list-name">{{item.name}}</div>
+            </router-link>
+          </van-cell>
+        </van-list>
+      </div>
+      <div class="list-last" ref="lastNode"></div>
     </div>
 </template>
 <script>
@@ -25,21 +25,31 @@ export default {
   },
   data () {
     return {
-      scroller: null,
+      lastNode: null,
       playList: [],
       offset: 0,
-      loading: false
+      loading: false,
+      listLoading: false,
+      finished: false
     }
   },
   created () {
     this.getData()
   },
   mounted () {
-    this.scroller = this.$el
+    this.lastNode = this.$refs.lastNode
+    let observer = new IntersectionObserver((ioes) => {
+      let ratio = ioes[0].intersectionRatio
+      if(ratio > 0) {
+        this.getData();
+      }
+    })
+    observer.observe(this.lastNode)
   },
   methods: {
     getData () {
       this.offset === 0 ? (this.loading = true) : ''
+      this.listLoading = true
       api.getPlayListByWhere(this.offset, 6).then((data) => {
         var total = data.total
         var list = (data.playlists)
@@ -49,9 +59,11 @@ export default {
         this.offset = this.offset + 6
         if (this.offset > total) this.offset = total
         this.loading = false
+        this.listLoading = false
       })
     },
     loadMore () {
+      console.log(this.offset)
       this.offset += 6
       this.getData()
     },
@@ -72,9 +84,7 @@ export default {
     height: auto;
 }
 .wrapper {
-    width: 100%;
     padding:0 10px;
-    height: 28rem;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -87,7 +97,7 @@ export default {
     &-bar {
       position: absolute;
       top: 0;
-      left: 0;
+      right: 0;
       color: #fff;
       width: 100%;
       text-align: right;
@@ -96,14 +106,17 @@ export default {
     }
     &-item {
         position: relative;
-        margin: 0 5px 5px 10px;
+        width: 4.5rem;
+        display: inline-block;
+        padding: 0;
+        margin: 0 5px 5px;
         a {
           color:rgba(0,0,0,.87);
         }
     }
     &-img {
-      width: 8rem;
-      height: 8rem;
+      width: 4.6rem;
+      height: 4.6rem;
     }
     &-img[lazy=loading] {
       background: url('../static/default_cover.png') no-repeat;

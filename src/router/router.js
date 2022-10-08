@@ -2,51 +2,53 @@
  * 整个app的路由设置
  */
 import {createRouter, createWebHistory} from 'vue-router'
+import IndexView from '../views/indexView'
+import HomeView from '../views/homeView'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: '/index',
-      component: require('../views/indexView.vue'),
+      component: IndexView,
       children: [
         {
-          path: 'home',
-          component: require('../views/homeView.vue')
+          path: 'homeView',
+          component: HomeView
         },
         {
           path: 'songList',
-          component: require('../views/songList.vue')
+          component: () => import('../views/songList.vue')
         },
         {
           path: 'leaderBoard',
-          component: require('../views/leaderBoard.vue')
+          component: () => import('../views/leaderBoard.vue')
         },
         {
           path: 'hotSinger',
-          component: require('../views/hotSinger.vue')
+          component: () => import('../views/hotSinger.vue')
         }
       ]
     },
     {
       name: 'playerDetail',
       path: '/playerDetail/:id',
-      component: require('../views/playerDetail.vue')
+      component: () => import('../views/playerDetail.vue')
     },
     {
       path: '/playListDetail/:id',
       name: 'playListDetail',
-      component: require('../views/playListDetail.vue')
+      component: () => import('../views/playListDetail.vue')
     },
     {
       path: '/search',
       name: 'search',
-      component: require('../views/searchView.vue')
+      component: () => import('../views/searchView.vue')
     },
     {
       path: '/:w+',
       name: 'all',
-      redirect: '/index/homeView.vue'
+      redirect: '/index/homeView'
     }]
 })
 
