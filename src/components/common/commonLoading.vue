@@ -1,7 +1,7 @@
 <template>
     <div class="loading-wrapper" v-if="isloading" >
         <div class="loading"></div>
-        <div class="loading-txt">正在加载中</div>
+        <div class="loading-txt">正在加载中...</div>
     </div>
 </template>
 <script>
@@ -23,7 +23,7 @@
     background: #fff;
     width: 2.5rem;
     height: 2.5rem;
-    margin-top: 70%;
+    margin-top: 60%;
     margin-left: -1.25rem;
     background: url('../../static/rage_loading.png') no-repeat;
     background-size: cover;

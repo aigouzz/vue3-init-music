@@ -1,4 +1,13 @@
 html,body{
     height: 100%;
-    overflow-y: visible;
+}
+ul,li{
+    list-style: none;
+}
+a{
+    outline: none;
+    text-decoration: none;
+}
+input{
+    outline: none;
 }
