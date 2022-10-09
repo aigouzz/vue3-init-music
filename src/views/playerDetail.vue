@@ -4,12 +4,11 @@
         <div class="player-inner">
           <van-nav-bar>
             <template #left>
-              <van-icon name='arrow-left' @click="back"/>
+              <van-icon name='arrow-left' size=".6rem" @click="back"/>
             </template>
             <template #title>
               <div class="play-title">
-                <div class="play-name"><span>{{audio.name}}</span></div>
-                <div class="play-singer"> {{audio.singer}} </div>
+                <div class="play-name"><span>{{audio.name}}-{{audio.singer}}</span></div>
               </div>
             </template>
             <template #right>
@@ -36,14 +35,14 @@
               </div>
               <div class="process-bar">
                 <div class="pro">
-                <div class="pro-wrap">
-                  <mu-slider class="song-slider" @change="changeTime" v-model="prCurrentTime"/>
+                  <div class="pro-wrap">
+                    <van-slider class="song-slider" @change="changeTime" v-model="prCurrentTime"/>
+                  </div>
+                  <div class="time">
+                    <time id="cur">{{setTime(currentTime)}}</time>
+                    <time id="total">{{setTime(durationTime)}}</time>
+                  </div>
                 </div>
-                <div class="time">
-                  <time id="cur">{{setTime(currentTime)}}</time>
-                  <time id="total">{{setTime(durationTime)}}</time>
-                </div>
-              </div>
               </div>
               <div class="control-bar ">
                 <van-button class="btn d-mode"/>
@@ -224,7 +223,6 @@ export default {
 <style lang="less" scoped>
   .content {
     overflow: hidden;
-    min-height: 25rem;
     height: 100%;
   }
   .main {
@@ -264,8 +262,8 @@ export default {
       overflow: hidden;
       .stick {
         position: absolute;
-        width: 4rem;
-        height: 6rem;
+        width: 2.5rem;
+        height: 3.75rem;
         right: 30%;
         background: url("../static/stick_bg.png") no-repeat left -.4rem;
         background-size: cover;
@@ -279,12 +277,12 @@ export default {
       }
       .cd-wrapper {
         position: relative;
-        width: 9.6rem;
-        height: 9.6rem;
-        padding: .8rem .9rem;
+        width: 6rem;
+        height: 6rem;
+        padding: .5rem .53rem;
         border-radius: 50%;
         background: rgba(107, 107, 107, 0.3);
-        margin: 3rem auto 0;
+        margin: 1.8rem auto 0;
         .cd-mask {
           position: absolute;
           width: 100%;
@@ -323,9 +321,6 @@ export default {
     }
 
     // 修改默认的bar样式
-    .mu-appbar {
-      background-color: transparent;
-    }
     .bar-line {
       display: block;
       bottom: 0 ;
@@ -335,27 +330,20 @@ export default {
       height: 0.05rem;
       background: radial-gradient(#d3d3d3 -90%, transparent 100%);
     }
-    .mu-paper-1 {
-      box-shadow: none;
-      > .mu-appbar-title {
-        text-align: center;
-        font-size: 14px;
-      }
-    }
   }
 
 .bottom-wrapper {
-  padding: 0 1rem 0;
+  padding: 0 .525rem 0;
   color: #fff;
   align-items: flex-end;
 }
 
   // 歌词
   .lyric-holder {
-    margin-top: .6rem;
+    margin-top: .5rem;
     position: relative;
     overflow: hidden;
-    height: 3rem;
+    height: 1.89rem;
     .lrc-inner {
       position: absolute;
       left: 10px;
@@ -379,140 +367,146 @@ export default {
   // 进度条
   .pro {
       position: relative;
-    }
-    .pro-wrap {
-      margin: 0 2rem;
-      padding: 1rem 0 0;
-      position: relative;
-    }
-    .time {
-      color: #fff;
-      font-size: 12px;
-      time {
-        position: absolute;
-        top: 54%;
-        opacity: .5;
-      }
-      #cur {
-        left: 0;
-      }
-      #total {
-        right: 0;
-      }
-    }
-    .song-slider {
-      margin-bottom:0;
-    }
-
-  // 控制按钮
-  .control-bar {
-    .btn {
-      width: 2.6rem;
-      height: 2.6rem;
-    }
-    .d-mode {
-      background: url("../static/seq.png") no-repeat;
-      background-size: cover;
-    }
-    .d-prev {
-      background: url("../static/prev.png") no-repeat;
-      background-size: cover;
-    }
-    .d-play {
-      background: url("../static/play.png") no-repeat;
-      background-size: cover;
-    }
-    .d-pause {
-      background: url("../static/pause.png") no-repeat;
-      background-size: cover;
-    }
-    .d-next {
-      background: url("../static/next.png") no-repeat;
-      background-size: cover;
-    }
-    .d-list {
-      background: url("../static/list.png") no-repeat;
-      background-size: cover;
-    }
   }
-
-  // 背景遮罩
-  .mask {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 1;
-  }
-  .album-cover {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    filter: blur(1.2rem);
-    -webkit-filter: blur(1.2rem);
-    -webkit-transform: scale(1.05);
-  }
-  .cover-mask {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 3;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,.8);
-  }
-
-
-  /*跑马灯样式*/
-  .marquee {
+  .pro-wrap {
+    margin: 0 1.25rem;
+    padding: .525rem 0 0;
     position: relative;
-    overflow: hidden;
-    height: 30px;
   }
-  .marquee > span {
-    display: block;
-    position: absolute;
-    overflow: hidden;
-    width: 200%;
-    height: 30px;
-    -webkit-animation: marquee 10s linear infinite;
-    animation: marquee 10s linear infinite;
-  }
-
-  /* 定义一个走马灯动画 */
-  @-webkit-keyframes marquee {
-    0% { left: 0; }
-    100% { left: -100%; }
-  }
-  @keyframes marquee {
-    0% { left:0; }
-    100% { left: -100%; }
-  }
-
-  /*cd 旋转动画*/
-
-  @-webkit-keyframes rotating{
-    0% { -webkit-transform:rotate(0deg); }
-    100% { -webkit-transform:rotate(360deg); }
-  }
-  @keyframes rotating {
-    0% { transform: rotate(0deg);}
-    100% { transform: rotate(360deg);}
-  }
-
-   .fade-enter-active {
-      transition: all .4s;
+  .time {
+    color: #fff;
+    font-size: 12px;
+    time {
+      position: absolute;
+      top: 54%;
+      opacity: .5;
     }
-    .fade-enter {
-      transform: translate(100%, 0);
+    #cur {
+      left: 0;
     }
+    #total {
+      right: 0;
+    }
+  }
+  .song-slider {
+    margin-bottom:0;
+  }
+
+// 控制按钮
+.control-bar {
+  padding: 3px 0 0;
+  text-align: center;
+  .btn {
+    width: 1.525rem;
+    height: 1.525rem;
+    border: none;
+    &::before{
+      border: none;
+    }
+  }
+  .d-mode {
+    background: url("../static/seq.png") no-repeat;
+    background-size: cover;
+  }
+  .d-prev {
+    background: url("../static/prev.png") no-repeat;
+    background-size: cover;
+  }
+  .d-play {
+    background: url("../static/play.png") no-repeat;
+    background-size: cover;
+  }
+  .d-pause {
+    background: url("../static/pause.png") no-repeat;
+    background-size: cover;
+  }
+  .d-next {
+    background: url("../static/next.png") no-repeat;
+    background-size: cover;
+  }
+  .d-list {
+    background: url("../static/list.png") no-repeat;
+    background-size: cover;
+  }
+}
+
+// 背景遮罩
+.mask {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+.album-cover {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(0.75rem);
+  -webkit-filter: blur(0.75rem);
+  -webkit-transform: scale(1.05);
+}
+.cover-mask {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.8);
+}
+
+
+/*跑马灯样式*/
+.marquee {
+  position: relative;
+  overflow: hidden;
+  height: 30px;
+}
+.marquee > span {
+  display: block;
+  position: absolute;
+  overflow: hidden;
+  width: 200%;
+  height: 30px;
+  -webkit-animation: marquee 10s linear infinite;
+  animation: marquee 10s linear infinite;
+}
+
+/* 定义一个走马灯动画 */
+@-webkit-keyframes marquee {
+  0% { left: 0; }
+  100% { left: -100%; }
+}
+@keyframes marquee {
+  0% { left:0; }
+  100% { left: -100%; }
+}
+
+/*cd 旋转动画*/
+
+@-webkit-keyframes rotating{
+  0% { -webkit-transform:rotate(0deg); }
+  100% { -webkit-transform:rotate(360deg); }
+}
+@keyframes rotating {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+
+.fade-enter-active {
+  transition: all .4s;
+}
+.fade-enter {
+  transform: translate(100%, 0);
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="playList" :class="{view: songList.length > 0}">
-        <div class="fixed-title" :style="{'background': 'rgba(206, 61, 62, '+ opacity +')'}" style="transition: opacity .1s;">
+        <div class="fixed-title">
             <van-nav-bar>
             <template #left>
               <van-icon name='arrow-left' size=".6rem" @click="back"/>
@@ -16,12 +16,12 @@
             <div class="info-wrapper">
                 <div class="info-gallery">
                     <span>{{formatCount(playCount)}}</span>
-                    <img :src="coverImgUrl + '?param=300y300'" alt="">
+                    <img :src="creator.backgroundUrl" alt="">
                 </div>
                 <div class="info-title">
                     <p class="titile">{{name}}</p>
                     <p class="author" v-if="creator.avatarUrl">
-                      <van-image :src="creator.avatarUrl + '?param=50y50'" />
+                      <img :src="creator.avatarUrl" />
                       <span>{{creator.nickname}}</span>
                     </p>
                 </div>
@@ -35,12 +35,11 @@
             <van-button class="demo-flat-button" icon="add_circle_outline" @click="playAll">播放全部</van-button>
           </div>
           <div>
-          <van-list loading="" @load="change">
-            <div v-for="(item, index) in list" :key="item.id" @click="playAudio(item)">
-                <van-cell :title="item.name" :value="item.id" :describeText="item.ar[0].name">
-                    <span class="indexStyle">{{index + 1}}</span>
-                </van-cell>
-            </div>
+          <van-list :loading="isloading" :finished="finished" finishedText="没有更多了" @load="loadMore">
+              <van-cell v-for="(item, index) in list" :key="item.id" @click="playAudio(item)">
+                  <span class="list-left">{{index + 1}}</span>
+                  <span class="list-right">{{item.name}} - {{item.ar ? item.ar[0].name : ''}}</span>
+              </van-cell>
           </van-list>
         </div>
       </div>
@@ -52,27 +51,36 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      coverImgUrl: '../static/default_cover.png',
+      coverImgUrl: require('../static/default_cover.png'),
       name: '歌单标题',
       id: 0,
       fname: '歌单',
       playCount: 0,
       description: '描述描述',
       creator: {
-        'avatarUrl': '../../static/user-default.png',
-        'nickname': '昵称'
+        'avatarUrl': require('../static/user-default.png'),
+        'nickname': '昵称',
+        backgroundUrl: require('../static/default_cover.png')
       },
       list: [],
-      opacity: 0,
       value: 0,
-      isloading: false
+      isloading: false,
+      finished: false
     }
+  },
+  created() {
+    this.offset = 0
+    this.ids = ''
   },
   // 解除keep-alive的缓存
   beforeRouteEnter: (to, from, next) => {
     next(vm => {
       // 根据传过来的ID是否一样，判断加载
       if (parseInt(to.params.id) !== parseInt(vm.id)) {
+        vm.offset = 0
+        vm.ids = ''
+        vm.list = []
+        vm.finished = false
         vm.getData()
       }
       // 判断过来的路由是否带有对应的参数信息
@@ -92,7 +100,6 @@ export default {
         } else {
           vm.fname = '歌单'
         }
-        vm.opacity = window.pageYOffset / 150
       }
     })
   },
@@ -106,20 +113,36 @@ export default {
       this.$router.go(-1)
     },
     getData () {
-      this.isloading = true
-      api.getPlayListDetail(this.$route.params.id).then(data => {
-        this.list = data.playlist.tracks
-        this.ids = ''
+      api.getPlayListDetail(this.$route.params.id).then((data) => {
+        this.coverImgUrl = data.playlist.coverImgUrl
+        this.playCount = data.playlist.playCount
+        this.name = data.playlist.name
+        this.creator = {
+          avatarUrl: data.playlist.creator.avatarUrl,
+          nickname: data.playlist.creator.nickname,
+          backgroundUrl: data.playlist.creator.backgroundUrl,
+        }
         data.playlist.trackIds.forEach((item, index) => {
-          if (index === 0) {
+          if (index === 0 && !this.ids) {
             this.ids += `${item.id}`
           } else {
             this.ids += `,${item.id}`
           }
         })
+      })
+      this.loadMore()
+    },
+    loadMore() {
+      this.isloading = true
+      api.getPlayListAll({id: this.$route.params.id, offset: this.offset, limit: 10}).then(data => {
+        this.list.push(...data.songs)
+        this.offset += 10
+        if(this.offset >= this.ids.split(',').length) {
+          this.finished = true
+        }
         this.isloading = false
       }).catch((error) => {
-        console.log('加载歌单信息出错:' + error)
+        console.log('获取歌单信息出错:' + error)
       })
     },
     change (val) {
@@ -159,6 +182,7 @@ export default {
         height: 56px;
         left: 0;
         z-index: 15;
+        transition: opacity .1s;
     }
     .play-name{
       color: #fff;
@@ -220,7 +244,7 @@ export default {
 
         .info-title {
             float: left;
-            width: 5rem;
+            width: 4rem;
             margin-left: .625rem;
             .title {
                 font-size: 16px;
@@ -238,6 +262,9 @@ export default {
                     vertical-align: top;
                     line-height: 30px;
                 }
+                img{
+                  width: 1rem;
+                }
             }
         }
     }
@@ -246,6 +273,7 @@ export default {
       position: relative;
       background: #fff;
       z-index: 3;
+      padding-bottom: 1.4rem;
       .add-all {
           padding-left: .4rem;
           width: 3rem;
@@ -259,16 +287,21 @@ export default {
     }
 
     // 列表样式
-    .indexStyle {
+    .list-left {
       padding-left: 10px;
-      font-size: 18px;
+      font-size: 14px;
       font-weight: bolder;
+      display: inline-block;
+      vertical-align: middle;
     }
-    .mu-item-title {
-      white-space:nowrap;
-      height: 1.7rem;
+    .list-right{
+      margin-left: 10px;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      display: inline-block;
+      max-width: 8rem;
+      vertical-align: middle;
     }
     .bg-player {
         position: absolute;

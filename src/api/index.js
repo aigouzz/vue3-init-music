@@ -57,6 +57,16 @@ export default {
   getPlayListDetail (id) {
     return getRequest(`/playlist/detail?id=${id}`)
   },
+  /**
+   * 
+   * @param {Number} id 
+   * @param {Number} limit
+   * @param {Number} offset
+   * @returns 
+   */
+  getPlayListAll({id, limit, offset}) {
+    return getRequest(`/playlist/track/all?id=${id}&limit=${limit}&offset=${offset}`)
+  },
   getMv (id) {
     return getRequest('/mv?mvid=' + id)
   },

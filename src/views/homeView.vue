@@ -2,36 +2,36 @@
     <div>
       <Loading :isloading="isloading"></Loading>
       <div class="container" v-show="!isloading">
-      <div id="slider">
-        <Swiper :pagination="{clickable: true}" :modules="modules">
-          <Swiper-slide v-for="item in bannerList" :key="item.imageUrl"><img :src="item.imageUrl" class="banner-item"  alt=""></Swiper-slide>
-          <div class="swiper-pagination"></div>
-        </Swiper>
+        <div id="slider">
+          <Swiper :pagination="{clickable: true}" :modules="modules">
+            <Swiper-slide v-for="item in bannerList" :key="item.imageUrl"><img :src="item.imageUrl" class="banner-item"  alt=""></Swiper-slide>
+            <div class="swiper-pagination"></div>
+          </Swiper>
+        </div>
+        <div class="wrapper">
+        <div class="g-title song-list">推荐歌单 <router-link :to="{path: '/index/songList'}">更多></router-link></div>
+        <van-list class="box">
+          <van-cell class="item" :key="item.id" v-for="item in playList">
+            <router-link :to="{name: 'playListDetail',params: { id: item.id, name: item.name, coverImg: item.picUrl, creator: item.copywriter, count: item.playCount, desc: item.description }}">
+              <div class="bar">{{formatCount(item.playCount)}}</div>
+              <img class="item-img img-response" :src="item.picUrl" lazy="loading">
+              <span class="item-name">{{item.name}}</span>
+            </router-link>
+          </van-cell>
+        </van-list>
+        <div class="g-title mv">推荐MV <router-link :to="{}">更多></router-link></div>
+        <van-list wrap="wrap" justify="space-between" class="box" :gutter="0">
+          <van-cell basis="48%" class="mv-item" v-for="item in mvList" :key="item.artistId">
+            <div class="mv-img">
+              <img class="img-response" :src="item.picUrl" />
+            </div>
+            <div class="mv-name">{{item.name}}</div>
+            <div class="mv-author">{{item.artistName}}</div>
+          </van-cell>
+        </van-list>
       </div>
-      <div class="wrapper">
-      <div class="g-title song-list">推荐歌单 <router-link :to="{path: '/index/songList'}">更多></router-link></div>
-      <van-list class="box">
-        <van-cell class="item" :key="item.id" v-for="item in playList">
-          <router-link :to="{name: 'playListDetail',params: { id: item.id, name: item.name, coverImg: item.picUrl, creator: item.copywriter, count: item.playCount, desc: item.description }}">
-            <div class="bar">{{formatCount(item.playCount)}}</div>
-            <img class="item-img img-response" :src="item.picUrl" lazy="loading">
-            <span class="item-name">{{item.name}}</span>
-          </router-link>
-        </van-cell>
-      </van-list>
-      <div class="g-title mv">推荐MV <router-link :to="{}">更多></router-link></div>
-      <van-list wrap="wrap" justify="space-between" class="box" :gutter="0">
-        <van-cell basis="48%" class="mv-item" v-for="item in mvList" :key="item.artistId">
-          <div class="mv-img">
-            <img class="img-response" :src="item.picUrl" />
-          </div>
-          <div class="mv-name">{{item.name}}</div>
-          <div class="mv-author">{{item.artistName}}</div>
-        </van-cell>
-      </van-list>
     </div>
   </div>
-</div>
 </template>
 <script>
 import 'swiper/css'
@@ -93,6 +93,9 @@ export default {
   .img-response {
     max-width: 100%;
     height: auto;
+  }
+  .container{
+    padding-bottom: 1.4rem;
   }
   .wrapper {
     padding: 0 5px;

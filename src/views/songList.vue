@@ -40,6 +40,7 @@ export default {
     this.lastNode = this.$refs.lastNode
     let observer = new IntersectionObserver((ioes) => {
       let ratio = ioes[0].intersectionRatio
+      console.log(ratio)
       if(ratio > 0) {
         this.getData();
       }
@@ -128,6 +129,9 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    &-last{
+      height: 0.01rem
     }
 }
 </style>

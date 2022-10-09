@@ -29,6 +29,7 @@
     "vant": "^3.6.4",
     "vue-awesome-swiper": "^5.0.1",
     "vue-router": "^4.1.5",
+    "vue-skeleton-webpack-plugin": "^1.2.2",
     "vuex": "^4.0.2"
   },
   "eslintConfig": {

@@ -20,7 +20,7 @@ axios.interceptors.response.use((res) => {
   }
   return res.data
 }, (error) => {
-  console.log('promise error:' + error)
+  Toast.fail('promise error:' + error)
   return Promise.reject(error)
 })
 export default axios
