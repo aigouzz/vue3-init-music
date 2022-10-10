@@ -9,7 +9,7 @@ const store = createStore({
       id: 0,
       name: '歌曲名称',
       singer: '演唱者',
-      albumPic: '/static/placeholder_disk_play_program.png',
+      albumPic: require('../static/placeholder_disk_play_program.png'),
       location: '',
       album: ''
     },
@@ -73,7 +73,7 @@ const store = createStore({
           'id': 0,
           'name': '歌曲名称',
           'singer': '演唱者',
-          'albumPic': '/static/player-bar.png',
+          'albumPic': require('../static/player-bar.png'),
           'location': '',
           'album': ''
         }

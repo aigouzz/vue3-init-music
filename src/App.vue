@@ -36,6 +36,7 @@
     },
     created () {
       this.$store.dispatch('getSong', 386538)  // 知足 - 五月天
+      console.log(this)
     },
     computed: {
       ...mapState([
