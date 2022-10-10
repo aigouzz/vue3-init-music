@@ -1,5 +1,6 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
+const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 // const SkeletonPlugin = require('vue-skeleton-webpack-plugin')
 // const MultiEntryPlugin = require('webpack')
 // console.log(typeof SkeletonPlugin)
@@ -44,5 +45,9 @@ module.exports = defineConfig({
   },
   chainWebpack: (config) => {
     // console.log(config.plugins)
+    if(process.env.NODE_ENV === 'production') {
+      config.plugins.push(new WebpackBundleAnalyzer())
+    }
+    return config
   }
 })
