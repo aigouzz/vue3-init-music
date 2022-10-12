@@ -5,5 +5,5 @@ export default createApp({
     components: {
         HomeSkeleton,
     },
-    template: '<HomeSkeleton></HomeSkeleton>'
+    template: '<HomeSkeleton id="homeView"></HomeSkeleton>'
 })

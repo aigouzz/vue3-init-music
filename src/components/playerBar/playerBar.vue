@@ -5,7 +5,7 @@
         <audio :src="audio.location" @timeupdate="updateTime" @canplay="canPlaySong" @error="loadError" @ended="next" id="audioPlay" />
         <div class="cover" @click="showDetail">
           <van-progress v-show="loading" :percentage="30"/>
-          <img class="xmplogo" :src="audio.albumPic + '?param=100y100'" v-show="!loading" :alt="audio.name">
+          <img class="xmplogo" :src="audio.albumPic" v-show="!loading" :alt="audio.name">
         </div>
         <div class="info">
           <div class="name xmpname">{{audio.name}}</div>

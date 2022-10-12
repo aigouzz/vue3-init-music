@@ -1,5 +1,5 @@
 /**
- * 整个app的路由设置
+ * 整个app路由设置
  */
 import {createRouter, createWebHistory} from 'vue-router'
 import IndexView from '../views/indexView'
@@ -46,7 +46,7 @@ const router = createRouter({
       component: () => import('../views/searchView.vue')
     },
     {
-      path: '/:w+',
+      path: '/:pathMatch(.*)*',
       name: 'all',
       redirect: '/index/homeView'
     }]

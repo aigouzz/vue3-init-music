@@ -25,7 +25,8 @@
           buttonPrimaryBorderColor: '#07c160',
           buttonPrimaryBackgroundColor: '#07c160',
           navBarBackgroundColor: '#07c160',
-          navBarIconColor: '#fff'
+          navBarIconColor: '#fff',
+          navBarTitleTextColor: '#fff'
         }
       }
     },

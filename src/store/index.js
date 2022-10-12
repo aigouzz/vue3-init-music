@@ -17,7 +17,7 @@ const store = createStore({
     currentIndex: 0, // 当前播放的歌曲位置
     playing: false, // 是否正在播放
     loading: false, // 是否正在加载中
-    showBar: false,
+    showBar: true,
     songList: [],    // 播放列表
     currentTime: 0,
     tmpCurrentTime: 0,

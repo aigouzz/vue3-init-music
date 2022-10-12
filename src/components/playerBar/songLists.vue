@@ -29,14 +29,16 @@ export default {
   methods: {
     closeBottomSheet () {
       this.bottomSheet = false
-      if (document.querySelector('.playList')) {
-        document.querySelector('.playList').style.position = 'static'
+      let playList = document.querySelector('.playList')
+      if (playList) {
+        playList.style.position = 'static'
       }
     },
     show () {
       this.bottomSheet = true
-      if (document.querySelector('.playList')) {
-        document.querySelector('.playList').style.position = 'fixed'
+      let playList = document.querySelector('.playList')
+      if (playList) {
+        playList.style.position = 'fixed'
       }
     },
     play (index) {

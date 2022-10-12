@@ -58,7 +58,7 @@ export default{
     .skeleton-content{
         width: 100%;
         height: 30px;
-        margin-top: 10px
+        margin-top: 10px;
     }
 }
 </style>

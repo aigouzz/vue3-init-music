@@ -40,6 +40,7 @@ import { Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import api from '../api'
 import Loading from '../components/common/commonLoading.vue'
+import { Toast } from 'vant'
 export default {
   data () {
     return {
@@ -73,10 +74,7 @@ export default {
         this.mvList = data[2].result.length > 6 ? data[2].result.slice(0, 6) : data[2].result
         this.isloading = false
       }).catch((err) => {
-        this.$toast(err, {
-          horizontalPosition: 'center',
-          verticalPosition: 'top'
-        })
+        Toast.fail(err)
       })
     },
     formatCount (v) {

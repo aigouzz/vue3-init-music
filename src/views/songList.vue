@@ -64,7 +64,6 @@ export default {
       })
     },
     loadMore () {
-      console.log(this.offset)
       this.offset += 6
       this.getData()
     },
