@@ -2,7 +2,7 @@
   <ConfigProvider :theme-vars="themeVars">
     <router-view v-slot="{Component}">
       <keep-alive>
-        <component :is="Component"></component>
+        <component :key="Component" :is="Component"></component>
       </keep-alive>
     </router-view>
     <Player v-show="showBar"></Player>

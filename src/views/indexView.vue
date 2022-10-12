@@ -21,7 +21,7 @@
       <div class="default-view" :class="{'view': songList.length > 0}">
         <router-view v-slot="{ Component }">
           <keep-alive>
-            <component :is="Component"></component>
+            <component :key="Component" :is="Component"></component>
           </keep-alive>
         </router-view>
       </div>

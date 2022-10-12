@@ -1,6 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
 const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const HotModuleReplacementPlugin = require('webpack').HotModuleReplacementPlugin
 // const SkeletonPlugin = require('vue-skeleton-webpack-plugin')
 // const MultiEntryPlugin = require('webpack')
 // console.log(typeof SkeletonPlugin)
@@ -48,9 +49,12 @@ module.exports = defineConfig({
     if(process.env.NODE_ENV === 'production') {
       // console.log(typeof config.plugins)
       config.plugin('WebpackBundleAnalyzer').use(WebpackBundleAnalyzer)
-    } else if(process.env.NODE_ENV === 'developement') {
-      config.devServer.open = true
-      config.devServer.hot = true
+    } else if(process.env.NODE_ENV === 'development') {
+      // config.devServer.open = true
+      // config.devServer.hot = true
+      // config.target = 'web'
+      // config.optimization.runtimeChunk = 'single'
+      // config.plugin('hotModuleReplacement').use(HotModuleReplacementPlugin)
     }
     return config
   }

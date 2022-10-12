@@ -15,7 +15,7 @@
                 center
                 clearable
                 label=""
-                placeholder="请输入您喜欢的搜索"
+                placeholder="请输入您喜欢的搜索内容11" 
             >
                 <template #button>
                     <van-button size="small" type="primary" @click="search">搜索</van-button>
