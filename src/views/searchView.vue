@@ -23,8 +23,9 @@
             </van-field>
         </van-cell-group>
         <van-list>
-            <van-cell v-for="(item, index) in list" :key="list.id">
+            <van-cell v-for="(item, index) in list" :key="item.id">
                 <span>{{item.title}}</span>
+                <van-icon class="search__list-close" name="close" size="0.3rem" @click="close(index)"></van-icon>
             </van-cell>
         </van-list>
     </div>
@@ -38,28 +39,39 @@
                 list: [
                     {
                         id: '001',
-                        title: '爱我'
+                        title: '夜曲-周杰伦'
                     },
                     {
                         id: '002',
-                        title: '爱我不'
+                        title: '西街-李荣浩'
                     },
                     {
                         id: '003',
-                        title: 'bu爱我'
+                        title: '甜蜜蜜-邓丽君'
                     }
                 ],
             };
         },
         methods: {
             search() {
-                
+                let index = this.list.length + 1
+                this.list.push({
+                    id: `00${index}`,
+                    title: Math.random().toFixed(2) + `东方明珠`
+                });
+            },
+            close(index) {
+                this.list.splice(index, 1)
             }
         }
     }
 </script>
-<style scoped>
+<style scoped lang="less">
     .index-search{
         width: 100%;
+        .search__list-close{
+            float: right;
+            margin-right: 5px;
+        }
     }
 </style>

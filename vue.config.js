@@ -44,6 +44,7 @@ module.exports = defineConfig({
     ],
   },
   chainWebpack: (config) => {
+    config.devServer.open = true
     config.devServer.hot = true
     if(process.env.NODE_ENV === 'production') {
       config.plugins.push(new WebpackBundleAnalyzer())
