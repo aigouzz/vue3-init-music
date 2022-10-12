@@ -44,10 +44,13 @@ module.exports = defineConfig({
     ],
   },
   chainWebpack: (config) => {
-    config.devServer.open = true
-    config.devServer.hot = true
+    // console.log(config)
     if(process.env.NODE_ENV === 'production') {
-      config.plugins.push(new WebpackBundleAnalyzer())
+      // console.log(typeof config.plugins)
+      config.plugin('WebpackBundleAnalyzer').use(WebpackBundleAnalyzer)
+    } else if(process.env.NODE_ENV === 'developement') {
+      config.devServer.open = true
+      config.devServer.hot = true
     }
     return config
   }
