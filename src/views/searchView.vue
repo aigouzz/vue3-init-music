@@ -2,7 +2,7 @@
     <div class="index-search">
         <van-nav-bar>
             <template #left>
-                <van-icon name="arrow-left" size=".6rem"/>
+                <van-icon @click="back" name="arrow-left" size=".6rem"/>
             </template>
             <template #title>
                 <div class="search__title">搜索</div>
@@ -53,6 +53,9 @@
             };
         },
         methods: {
+            back() {
+                this.$router.go(-1)
+            },
             search() {
                 let index = this.list.length + 1
                 this.list.push({

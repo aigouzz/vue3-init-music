@@ -1,7 +1,7 @@
 <template>
     <div class="loading-wrapper" v-if="isloading" >
         <div class="loading"></div>
-        <div class="loading-txt">正在加载中...</div>
+        <div class="loading-txt">正在加载中</div>
     </div>
 </template>
 <script>

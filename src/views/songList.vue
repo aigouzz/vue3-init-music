@@ -1,6 +1,6 @@
 <template>
+    <Loading :isloading="loading"></Loading>
     <div class="wrapper playList">
-      <Loading :isloading="loading"></Loading>
       <div class="content" v-if="!loading">
         <div class="title">全部歌单 </div>
         <van-list v-model:loading="listLoading" :finished="finished" finished-text="没有更多了" class="box">
